@@ -1,9 +1,18 @@
+use std::env;
 use std::io;
 use std::net::Shutdown::Write;
 use std::net::TcpStream;
+use std::process;
 use std::thread;
 
 fn main() {
+    let args: Vec<_> = env::args().collect();
+
+    if args.len() != 3 {
+        println!("Usage: {} <address> <tcp-port>", args[0]);
+        process::exit(1);
+    }
+
     let mut sock = TcpStream::connect("127.0.0.1:12345").unwrap();
 
     // Spawn thread sending input to remote:
